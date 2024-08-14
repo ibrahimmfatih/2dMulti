@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class Network : MonoBehaviourPunCallbacks
 {
-    public string roomName;
+   
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -20,7 +20,7 @@ public class Network : MonoBehaviourPunCallbacks
     {
         RoomOptions roomOptions = new RoomOptions
         { MaxPlayers = 10};
-        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby: default);
+        PhotonNetwork.JoinOrCreateRoom(PlayerPrefs.GetString("room"), roomOptions, typedLobby: default);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {

@@ -5242,7 +5242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fbd66562314a94ca1dbbf9e8e55be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: Odad
 --- !u!4 &1171919363
 Transform:
   m_ObjectHideFlags: 0
@@ -8150,7 +8149,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3337932439831731458, guid: 931cd6e5d3571b544878fb24b9e28d0f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3337932439831731458, guid: 931cd6e5d3571b544878fb24b9e28d0f, type: 3}
       propertyPath: m_LocalPosition.x
