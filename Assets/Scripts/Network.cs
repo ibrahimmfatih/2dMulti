@@ -32,6 +32,6 @@ public class Network : MonoBehaviourPunCallbacks
         Debug.Log("In The Room");
     
     Vector3 pos = new Vector3(0, 0, 0);
-    PhotonNetwork.Instantiate("Player" , pos, Quaternion.identity);
+    PhotonNetwork.Instantiate(PlayerPrefs.GetString("player") , pos, Quaternion.identity);
     }
 }
