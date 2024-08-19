@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    
+    public GameObject gameOverPanel; // UI Panel to show when the game ends
+    public Text winnerText; // Text to show the winner
+
     public Ball ball;
     private Vector3 ballStartPos;
-    [SerializeField] private float resetDelay = 2f;
     // Start is called before the first frame update
     void Start()
     {
         ballStartPos = ball.transform.position;
+
+        gameOverPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,12 +33,20 @@ public class GameManager : MonoBehaviour
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         
     }
-    public IEnumerator ResetPositionsWithDelay()
+    public void EndGame(string winner)
     {
-        // Wait for the specified delay
-        yield return new WaitForSeconds(resetDelay);
+        ball.gameObject.SetActive(false); // Deactivate the ball
+        winnerText.text = winner;
+        gameOverPanel.SetActive(true); // Show the game over panel
+    }
 
-        // Reset the ball and players to their starting positions
-        ResetPositions();
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); // Replace with your main menu scene name
     }
 }
