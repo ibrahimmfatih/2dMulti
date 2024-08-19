@@ -294,10 +294,6 @@ MonoBehaviour:
   odaadi: {fileID: 742771533}
   main: {fileID: 769944789}
   select: {fileID: 750274353}
-  playerNamePrefab: {fileID: 811394023}
-  blueTeamContainer: {fileID: 42390749}
-  redTeamContainer: {fileID: 1934619773}
-  noTeamContainer: {fileID: 1599274785}
 --- !u!4 &266678050
 Transform:
   m_ObjectHideFlags: 0

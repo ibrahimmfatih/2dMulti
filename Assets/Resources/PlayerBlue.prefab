@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6079169695391850131}
   - component: {fileID: 6079169695391850128}
   - component: {fileID: 6079169695391850129}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.3
   speed: 2.4
-  ball: {fileID: 1608287675513247632, guid: 4da42f8de45114f4b870012fe3ff6c9c, type: 3}
 --- !u!114 &6079169695391850131
 MonoBehaviour:
   m_ObjectHideFlags: 0
