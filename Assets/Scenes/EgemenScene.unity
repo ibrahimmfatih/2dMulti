@@ -7141,6 +7141,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fbd66562314a94ca1dbbf9e8e55be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueTeamSpawnPoints:
+  - {x: -1.64, y: 1.48, z: 0}
+  - {x: -1.64, y: -1.48, z: 0}
+  - {x: -3.91, y: -2.98, z: 0}
+  - {x: -3.91, y: 2.98, z: 0}
+  - {x: -3.91, y: 0, z: 0}
+  redTeamSpawnPoints:
+  - {x: 1.64, y: 1.48, z: 0}
+  - {x: 1.64, y: -1.48, z: 0}
+  - {x: 3.91, y: -2.98, z: 0}
+  - {x: 3.91, y: 2.98, z: 0}
+  - {x: 3.91, y: 0, z: 0}
 --- !u!4 &1171919363
 Transform:
   m_ObjectHideFlags: 0
