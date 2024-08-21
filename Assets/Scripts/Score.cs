@@ -10,7 +10,6 @@ public class Score : MonoBehaviour
     int score, opScore;
     Text scoreText, opScoreText;
 
-    public GameObject New;
     // Start is called before the first frame update
     void Start()
     {

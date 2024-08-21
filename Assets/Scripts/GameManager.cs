@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using System;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPun
 {
     public List<Vector3> team1SpawnPoints; // Set these in the inspector
     public List<Vector3> team2SpawnPoints; // Set these in the inspector
@@ -15,16 +16,13 @@ public class GameManager : MonoBehaviour
 
     public Ball ball;
     private Vector3 ballStartPos;
-    // Start is called before the first frame update
+
     void Start()
     {
         ballStartPos = ball.transform.position;
         gameOverPanel.SetActive(false);
-
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         Application.targetFrameRate = 60;
@@ -54,6 +52,7 @@ public class GameManager : MonoBehaviour
             team2Players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
+
     public void EndGame(string winner)
     {
         ball.gameObject.SetActive(false); // Deactivate the ball
@@ -61,12 +60,25 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(true); // Show the game over panel
     }
 
-    public void RestartGame()
+    // Bu metot, tüm oyuncularýn sahneyi yeniden yüklemesini saðlar
+    [PunRPC]
+    public void RPC_RestartGame()
     {
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PhotonNetwork.LoadLevel("EgemenScene");
     }
 
+    public void RestartGame()
+    {
+        if (photonView != null)
+        {
+            // RPC fonksiyonunu tüm oyunculara çaðýr
+            photonView.RPC("RPC_RestartGame", RpcTarget.All);
+        }
+        else
+        {
+            Debug.LogError("photonView is null in GameManager.");
+        }
+    }
     public void QuitToMainMenu()
     {
         PhotonNetwork.Disconnect();

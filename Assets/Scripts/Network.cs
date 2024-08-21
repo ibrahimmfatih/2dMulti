@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -9,52 +8,69 @@ public class Network : MonoBehaviourPunCallbacks
     public List<Vector3> blueTeamSpawnPoints; // Mavi takým doðma noktalarý
     public List<Vector3> redTeamSpawnPoints;  // Kýrmýzý takým doðma noktalarý
 
-    private int blueTeamIndex = 0; // Mavi takým için doðma noktasý sýrasý
-    private int redTeamIndex = 0;  // Kýrmýzý takým için doðma noktasý sýrasý
-
     private void Start()
+    {
+        PhotonNetwork.AutomaticallySyncScene = false; // Sahne senkronizasyonunu devre dýþý býrak
+        if (PhotonNetwork.InRoom)
+        {
+            OnJoinedRoom();
+        }
+    }
+
+    public void ConnectToMaster()
     {
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        print("Sunucuya Giriþ Yaptýn");
+        Debug.Log("Sunucuya Giriþ Yaptýn");
         JoinOrCreateRoom();
     }
 
     public void JoinOrCreateRoom()
     {
-        RoomOptions roomOptions = new RoomOptions
-        { MaxPlayers = 10 };
-        PhotonNetwork.JoinOrCreateRoom(PlayerPrefs.GetString("room"), roomOptions, typedLobby: default);
+        string roomName = PlayerPrefs.GetString("room");
+        RoomOptions roomOptions = new RoomOptions { MaxPlayers = 10 };
+        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Not In The Room");
+        Debug.LogError("Odaya katýlým baþarýsýz: " + message);
     }
 
-    public override void OnJoinedRoom()
+   public override void OnJoinedRoom()
+{
+    Debug.Log("Odaya Girildi");
+
+    // Aktif sahne adýný kontrol et
+    if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "EgemenScene")
     {
-        Debug.Log("In The Room");
-
-        string playerTeam = PlayerPrefs.GetString("player");
-        Vector3 spawnPos = Vector3.zero;
-
-        if (playerTeam == "PlayerBlue")
+        // Her oyuncu kendi takýmýný bulur
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("playerTeam", out object playerTeam))
         {
-            // Mavi takým için sýradaki pozisyonu seç
-            spawnPos = blueTeamSpawnPoints[blueTeamIndex];
-            blueTeamIndex = (blueTeamIndex + 1) % blueTeamSpawnPoints.Count; // Bir sonraki indexe geç
-        }
-        else if (playerTeam == "PlayerRed")
-        {
-            // Kýrmýzý takým için sýradaki pozisyonu seç
-            spawnPos = redTeamSpawnPoints[redTeamIndex];
-            redTeamIndex = (redTeamIndex + 1) % redTeamSpawnPoints.Count; // Bir sonraki indexe geç
-        }
+            Vector3 spawnPos = Vector3.zero;
 
-        PhotonNetwork.Instantiate(playerTeam, spawnPos, Quaternion.identity);
+            if (playerTeam.ToString() == "PlayerBlue")
+            {
+                // Mavi takým için rastgele bir doðma noktasý seç
+                int randomIndex = Random.Range(0, blueTeamSpawnPoints.Count);
+                spawnPos = blueTeamSpawnPoints[randomIndex];
+            }
+            else if (playerTeam.ToString() == "PlayerRed")
+            {
+                // Kýrmýzý takým için rastgele bir doðma noktasý seç
+                int randomIndex = Random.Range(0, redTeamSpawnPoints.Count);
+                spawnPos = redTeamSpawnPoints[randomIndex];
+            }
+
+            PhotonNetwork.Instantiate(playerTeam.ToString(), spawnPos, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Takým seçilmemiþ. Oyuncu spawn edilmeyecek.");
+        }
     }
+}
 }

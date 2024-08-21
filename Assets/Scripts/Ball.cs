@@ -37,7 +37,7 @@ public class Ball : MonoBehaviourPunCallbacks
             }
         }
     }
-        public void Shoot(Vector3 direction)
+    public void Shoot(Vector3 direction)
     {
         // Sahiplik zaten 'PlayerMovement' sýnýfýnda topa dokunurken devralýndýðý için burada tekrar devralmaya gerek yok.
 

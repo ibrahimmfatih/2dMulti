@@ -676,7 +676,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 41869038}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 595800298}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: QuitToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &41869038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,7 +1389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb0deb26989665840909106fc997dfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 1
+  maxScore: 2
   force: 500
   opScore: {fileID: 2146226814}
   score: {fileID: 1126192988}
@@ -2659,7 +2671,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &550200641
 RectTransform:
@@ -3154,6 +3166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 595800297}
   - component: {fileID: 595800298}
+  - component: {fileID: 595800299}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3187,9 +3200,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c58d436fa8f8ac429811708f0acad0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team1SpawnPoints:
+  - {x: -1.64, y: 1.48, z: 0}
+  - {x: -1.64, y: -1.48, z: 0}
+  - {x: -3.91, y: -2.98, z: 0}
+  - {x: -3.91, y: 2.98, z: 0}
+  - {x: -3.91, y: 0, z: 0}
+  team2SpawnPoints:
+  - {x: 1.64, y: 1.48, z: 0}
+  - {x: 1.64, y: -1.48, z: 0}
+  - {x: 3.91, y: -2.98, z: 0}
+  - {x: 3.91, y: 2.98, z: 0}
+  - {x: 3.91, y: 0, z: 0}
   gameOverPanel: {fileID: 1346898031}
   winnerText: {fileID: 1275355035}
   ball: {fileID: 255624048}
+--- !u!114 &595800299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595800296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &599862732
 GameObject:
   m_ObjectHideFlags: 0
@@ -6403,7 +6450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135, y: 30}
+  m_AnchoredPosition: {x: -54, y: 288}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1126192986
@@ -6462,7 +6509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f34f02b09ea9f4399f93a320553be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  New: {fileID: 0}
 --- !u!114 &1126192989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11527,7 +11573,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 120, y: 30}
+  m_AnchoredPosition: {x: 45.2, y: 287.2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2146226812
@@ -11586,7 +11632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f34f02b09ea9f4399f93a320553be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  New: {fileID: 0}
 --- !u!114 &2146226815
 MonoBehaviour:
   m_ObjectHideFlags: 0
