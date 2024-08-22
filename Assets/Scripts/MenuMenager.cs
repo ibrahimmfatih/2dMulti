@@ -11,13 +11,12 @@ public class MenuMenager : MonoBehaviourPunCallbacks
     public TMP_InputField odaadi;
     public GameObject main, select;
 
-    // Decision kýsmýnda kullanýlan UI elementleri
     public TMP_Text lobbyText;
     public TMP_Text blueTeamText;
     public TMP_Text redTeamText;
     public TMP_Text noTeamText;
 
-    public Network network; // Network script'ine referans (manuel atama)
+    public Network network;
 
     private void Start()
     {
@@ -26,6 +25,8 @@ public class MenuMenager : MonoBehaviourPunCallbacks
             network = FindObjectOfType<Network>(); // Yedek olarak
         }
 
+        // PhotonView atamasýný kaldýrýyoruz
+        // photonView zaten MonoBehaviourPun tarafýndan saðlanýyor ve otomatik olarak atanýyor
         main.SetActive(true);
         select.SetActive(false);
     }
@@ -41,51 +42,55 @@ public class MenuMenager : MonoBehaviourPunCallbacks
         string username = ad.text;
         string roomname = odaadi.text;
 
-        // Kullanýcý adýný ve oda adýný PlayerPrefs'e kaydedin
         PlayerPrefs.SetString("name", username);
         PlayerPrefs.SetString("room", roomname);
 
         PhotonNetwork.LocalPlayer.NickName = username;
 
-        Debug.Log("Username: " + username);
-        Debug.Log("Room Name: " + roomname);
-
         main.SetActive(false);
         select.SetActive(true);
 
-        // Network script'inin OnConnectedToMaster() metodunu çaðýr
         network.ConnectToMaster();
     }
 
     public void BlueTeam()
     {
-        PlayerPrefs.SetString("player", "PlayerBlue");
-
-        // Takým bilgisini CustomProperties ile sakla ve güncellemesini bekle
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable { { "playerTeam", "PlayerBlue" } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-        Debug.Log("Player Team: PlayerBlue");
-
-        // Oyuncunun takým seçimini tamamladýktan sonra sahneye geçiþini saðlar
-        // Diðer oyuncular için sahne senkronizasyonunu zorlamayýn
-        PhotonNetwork.LeaveRoom();  // Odadan çýkýyoruz
-        UnityEngine.SceneManagement.SceneManager.LoadScene("EgemenScene"); // Oyunun sahnesine geçiþ yapýyoruz
+        SetTeam("PlayerBlue");
     }
 
     public void RedTeam()
     {
-        PlayerPrefs.SetString("player", "PlayerRed");
+        SetTeam("PlayerRed");
+    }
 
-        // Takým bilgisini CustomProperties ile sakla ve güncellemesini bekle
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable { { "playerTeam", "PlayerRed" } };
+    private void SetTeam(string teamName)
+    {
+        PlayerPrefs.SetString("player", teamName);
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable { { "playerTeam", teamName } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-        Debug.Log("Player Team: PlayerRed");
+        Debug.Log($"Player Team: {teamName}");
 
-        // Oyuncunun takým seçimini tamamladýktan sonra sahneye geçiþini saðlar
-        PhotonNetwork.LeaveRoom();  // Odadan çýkýyoruz
-        UnityEngine.SceneManagement.SceneManager.LoadScene("EgemenScene"); // Oyunun sahnesine geçiþ yapýyoruz
+        // Takým deðiþikliðini tüm oyunculara bildir
+        photonView.RPC("OnTeamChanged", RpcTarget.All, PhotonNetwork.LocalPlayer.UserId, teamName);
+
+        PhotonNetwork.LeaveRoom();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EgemenScene");
+    }
+
+    [PunRPC]
+    void OnTeamChanged(string playerId, string newTeam)
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.UserId == playerId)
+            {
+                player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "playerTeam", newTeam } });
+                break;
+            }
+        }
+
+        UpdateLobbyUI();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -106,7 +111,6 @@ public class MenuMenager : MonoBehaviourPunCallbacks
         UpdateLobbyUI();
     }
 
-
     void UpdateLobbyUI()
     {
         if (PhotonNetwork.CurrentRoom == null)
@@ -115,37 +119,42 @@ public class MenuMenager : MonoBehaviourPunCallbacks
             return;
         }
 
-        // Lobby adýný güncelle
-        lobbyText.text = "Oda Adý: " + PhotonNetwork.CurrentRoom.Name;
-
-        // Her iki takýmý ve takýmsýz oyuncularý temizle
-        blueTeamText.text = "";
-        redTeamText.text = "";
-        noTeamText.text = "";
-
-        foreach (Player player in PhotonNetwork.PlayerList)
+        // UI öðelerinin atanmýþ olup olmadýðýný kontrol edin
+        if (lobbyText != null)
         {
-            string username = player.NickName;
-            Debug.Log("Processing player: " + username);
+            lobbyText.text = "Oda Adý: " + PhotonNetwork.CurrentRoom.Name;
+        }
 
-            if (player.CustomProperties.TryGetValue("playerTeam", out object team))
+        if (blueTeamText != null && redTeamText != null && noTeamText != null)
+        {
+            blueTeamText.text = "";
+            redTeamText.text = "";
+            noTeamText.text = "";
+
+            foreach (Player player in PhotonNetwork.PlayerList)
             {
-                Debug.Log("Player " + username + " is in team: " + team);
+                string username = player.NickName;
 
-                if (team.ToString() == "PlayerBlue")
+                if (player.CustomProperties.TryGetValue("playerTeam", out object team))
                 {
-                    blueTeamText.text += username + "\n";
+                    if (team.ToString() == "PlayerBlue")
+                    {
+                        blueTeamText.text += username + "\n";
+                    }
+                    else if (team.ToString() == "PlayerRed")
+                    {
+                        redTeamText.text += username + "\n";
+                    }
                 }
-                else if (team.ToString() == "PlayerRed")
+                else
                 {
-                    redTeamText.text += username + "\n";
+                    noTeamText.text += username + "\n";
                 }
             }
-            else
-            {
-                Debug.Log("Player " + username + " has not chosen a team.");
-                noTeamText.text += username + "\n";
-            }
+        }
+        else
+        {
+            Debug.Log("UI elements are not required in this scene.");
         }
     }
 }
