@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxScore: 3
-  force: 500
+  force: 666
   opScore: {fileID: 2146226814}
   score: {fileID: 1126192988}
   gameManager: {fileID: 595800298}
@@ -6486,7 +6486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f34f02b09ea9f4399f93a320553be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  New: {fileID: 0}
 --- !u!114 &1126192989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11610,7 +11609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f34f02b09ea9f4399f93a320553be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  New: {fileID: 0}
 --- !u!114 &2146226815
 MonoBehaviour:
   m_ObjectHideFlags: 0

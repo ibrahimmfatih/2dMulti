@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 13.27006, y: 1.2814332}
+  m_Offset: {x: 13.27006, y: 1.2832992}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.059757233, y: 2.5089538}
+  m_Size: {x: 0.059757233, y: 2.255877}
   m_EdgeRadius: 0
 --- !u!1001 &3084604508623671444
 PrefabInstance:
@@ -65,6 +65,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4811591666288692804}
     m_Modifications:
+    - target: {fileID: 5452442124176308300, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452442124176308300, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452442124176308300, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5452442124277600716, guid: b73aedee282358d4dad03555065737e9, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -112,6 +124,18 @@ PrefabInstance:
     - target: {fileID: 5452442124277600816, guid: b73aedee282358d4dad03555065737e9, type: 3}
       propertyPath: m_Name
       value: "KaleSa\u011F"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452442124672298634, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452442124672298634, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452442124672298634, guid: b73aedee282358d4dad03555065737e9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73aedee282358d4dad03555065737e9, type: 3}
